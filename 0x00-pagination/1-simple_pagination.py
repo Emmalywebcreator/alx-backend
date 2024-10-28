@@ -45,7 +45,7 @@ class Server:
         """A method that get a page from a dataset with pagination
         and return it
         """
-        assert isinstance(page, int) page > 0
+        assert isinstance(page, int) and page > 0
         assert isinstance(page_size, int) and page_size > 0
 
         start_index, end_index = index_range(page, page_size)

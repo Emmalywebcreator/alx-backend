@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 A module that return a tuple of sixe 2, the start index
-and the last index
+and the last indexi
 """
 
 

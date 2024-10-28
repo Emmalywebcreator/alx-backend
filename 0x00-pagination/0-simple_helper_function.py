@@ -5,7 +5,7 @@ and the last indexi
 """
 
 
-def index_range(page: int, page_size: int)-> tuple:
+def index_range(page: int, page_size: int) -> tuple:
     """This function calculate the start and the end
     indexes for pagnation
     """

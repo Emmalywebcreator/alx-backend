@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 """
-FIFI CLASS that remove the first item that entered a cache
+A FIFO caching system that discards the newest item in the cache when it
+exceeds the maximum limit.
 """
 
 from base_caching import BaseCaching
 
 
-class FIFOCache(BaseCaching):
+class LIFOCache(BaseCaching):
     """
-    A FIFO caching system that discards the oldest item in the cache when it
-    exceeds the maximum limit.
+    FIFI CLASS that remove the first item that entered a cache
     """
     def __init__(self):
         """Initialize the cache system."""
         super().__init__()
-        self.order = []
+        self.last_key = None
 
     def put(self, key, item):
         """Add an item to the cache"""
@@ -26,14 +26,17 @@ class FIFOCache(BaseCaching):
             return
 
         self.cache_data[key] = item
-        self.order.append(key)
+        self.last_key = key
 
         if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            oldest_key = self.order.pop(0)
-            del self.cache_data[oldest_key]
-            print(f"DISCARD: {oldest_key}")
+            del self.cache_data[self.last_key]
+            print(f"DISCARD: {self.last_key}")
+
+        if self.cache_data:
+            self.last_key = list(self.cache_data.keys())[-1]
+        else:
+            self.last_key = None
 
     def get(self, key):
         """Retrieve an item from the cache by key."""
         return self.cache_data.get(key, None)
-    

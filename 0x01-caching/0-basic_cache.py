@@ -1,3 +1,6 @@
+#!/usr/bin/env pyhton3
+"""BasicChache clas"""
+
 from base_caching import BaseCaching
 
 
@@ -12,5 +15,5 @@ class BasicCache(BaseCaching):
     def get(self, key):
         """Retrieve an item from the cache by key."""
         if key in self.cache_data:
-            return self.cache_data[key]
+            return self.cache_data.get(key)
         return None

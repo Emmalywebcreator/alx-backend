@@ -21,8 +21,10 @@ class LFUCache(BaseCaching):
         self.recency = OrderedDict()
 
     def put(self, key, item):
-        """Add an item to the cache, and apply LFU + LRU replacement policy when
-        limit exceeded."""
+        """
+        Add an item to the cache, and apply LFU + LRU replacement policy
+        when limit exceeded.
+        """
         if key is None or item is None:
             return
         if key in self.cache_data:

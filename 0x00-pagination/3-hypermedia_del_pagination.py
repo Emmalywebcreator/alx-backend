@@ -34,11 +34,11 @@ class Server:
 
         return self.__dataset
 
-    def indexed_dataset(self) -> Dic[int, List]:
+    def indexed_dataset(self) -> Dict[int, List]:
         """Dataset indexed by sorting position, starting at 0"""
         if self.__indexed_dataset is None:
             dataset = self.dataset()
-            delf.__indexed_dataset = {
+            self.__indexed_dataset = {
                     i: dataset[i] for i in range(len(dataset))
             }
         return self.__indexed_dataset
@@ -46,11 +46,11 @@ class Server:
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """Retrieves a page of data.
         """
-        assert type(page) == int and type(page_size) == int
+        assert isinstance(page, int) and isinstance(page_size, int)
         assert page > 0 and page_size > 0
         start, end = index_range(page, page_size)
         data = self.dataset()
-        if start > len(data):
+        if start >= len(data):
             return []
         return data[start:end]
 
@@ -60,18 +60,19 @@ class Server:
         """
         data = self.indexed_dataset()
         assert index is not None and index >= 0 and index <= max(data.keys())
+
         page_data = []
         data_count = 0
-        next_index = None
-        start = index if index else 0
-        for i, item in data.items():
-            if i >= start and data_count < page_size:
+        current_index = index
+
+        while data_count < page_size and current_index < len(data):
+            item = data.get(current_index)
+            if item:
                 page_data.append(item)
                 data_count += 1
-                continue
-            if data_count == page_size:
-                next_index = i
-                break
+            current_index += 1
+        next_index = current_index if current_index < len(data) else None
+
         page_info = {
             'index': index,
             'next_index': next_index,
